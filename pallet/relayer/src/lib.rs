@@ -19,9 +19,9 @@
 pub use pallet::*;
 
 use frame_support::{
-	dispatch::{DispatchResultWithPostInfo, GetDispatchInfo, UnfilteredDispatchable},
+	dispatch::{DispatchResultWithPostInfo, GetDispatchInfo},
 	pallet_prelude::*,
-	traits::StorageVersion,
+	traits::{ StorageVersion, UnfilteredDispatchable},
 };
 use frame_system::pallet_prelude::*;
 use sp_std::prelude::*;
@@ -53,57 +53,60 @@ pub mod pallet {
 	pub struct Pallet<T>(_);
 
     #[pallet::storage]
-	pub type Relayer<T: Config> = StorageValue<_, T::AccountId, ValueQuery>;
+	pub type Relayer<T: Config> = StorageValue<_, T::AccountId, OptionQuery>;
 
 	#[pallet::call]
 	impl<T: Config> Pallet<T> {
-		#[pallet::weight({
-			let dispatch_info = call.get_dispatch_info();
-			(dispatch_info.weight, dispatch_info.class)
-		})]
+		// #[pallet::weight({
+		// 	let dispatch_info = call.get_dispatch_info();
+		// 	(dispatch_info.weight, dispatch_info.class)
+		// })]
+		#[pallet::weight(10000000)]
 		pub fn register_relayer(
 			origin: OriginFor<T>,
 			address: T::AccountId,
-		) -> DispatchResultWithPostInfo {
+		) -> DispatchResult {
 			T::ExternalOrigin::ensure_origin(origin)?;
 
-            Relayer::try_mutate(|user| {
-                user = address;
+            Relayer::<T>::mutate(|user| {
+                *user = Some(address.clone());
             });
 
-			Self::deposit_event(Event::NewRegistration { address, role:: "relayer".as_bytes().to_vec() });
+			Self::deposit_event(Event::NewRegistration { address, role: "relayer".as_bytes().to_vec() });
 
 			Ok(())
 		}
 
+		#[pallet::weight(10000000)]
         pub fn update_relayer(
 			origin: OriginFor<T>,
 			address: T::AccountId,
-		) -> DispatchResultWithPostInfo {
+		) -> DispatchResult {
 			T::ExternalOrigin::ensure_origin(origin)?;
 
-            Relayer::try_mutate_exists(|user_opt| {
-				if let Some(user) => user_opt {
-					user = address;
-				}
-            });
+            // Relayer::try_mutate_exists(|user_opt| {
+			// 	if let Some(user) => user_opt {
+			// 		user = address;
+			// 	}
+            // });
 
-			Self::deposit_event(Event::NewRegistration { address, role:: "relayer".as_bytes().to_vec() });
+			Self::deposit_event(Event::NewRegistration { address, role: "relayer".as_bytes().to_vec() });
 
 			Ok(())
 		}
 
+		#[pallet::weight(10000000)]
 		pub fn remove_relayer(
 			origin: OriginFor<T>,
 			address: T::AccountId,
-		) -> DispatchResultWithPostInfo {
+		) -> DispatchResult {
 			T::ExternalOrigin::ensure_origin(origin)?;
 
-            Relayer::try_mutate_exists(|user_opt| {
-                user = address;
-            });
+            // Relayer::try_mutate_exists(|user_opt| {
+            //     user = address;
+            // });
 
-			Self::deposit_event(Event::NewRegistration { address, role:: "relayer".as_bytes().to_vec() });
+			Self::deposit_event(Event::NewRegistration { address, role: "relayer".as_bytes().to_vec() });
 
 			Ok(())
 		}

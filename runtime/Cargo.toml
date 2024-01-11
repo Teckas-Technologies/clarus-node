@@ -139,8 +139,8 @@ pallet-tx-pause = { git = "https://github.com/paritytech/polkadot-sdk.git", tag 
 pallet-safe-mode = { git = "https://github.com/paritytech/polkadot-sdk.git", tag = "v1.4.0", default-features = false}
 
 #local
-utils = { version = "0.1.0", path = "../utils" }
-clarus-mandate = { version = "1.0.0", path = "../pallet/mandate" }
+utils = { version = "0.1.0", path = "../utils", default-features = false }
+clarus-mandate = { version = "1.0.0", path = "../pallet/mandate", default-features = false }
 
 [build-dependencies]
 substrate-wasm-builder = { git = "https://github.com/paritytech/polkadot-sdk.git", tag = "v1.4.0", optional = true }
@@ -262,7 +262,6 @@ std = [
 	#local
 	"clarus-mandate/std",
 	"utils/std",
-
 ]
 runtime-benchmarks = [
 	"frame-benchmarking-pallet-pov/runtime-benchmarks",
