@@ -20,8 +20,7 @@
 
 use crate::keyring::*;
 use clarus_runtime::{
-	constants::currency::*, AccountId, AssetsConfig, BabeConfig, BalancesConfig, GluttonConfig,
-	GrandpaConfig, IndicesConfig, RuntimeGenesisConfig, SessionConfig, SocietyConfig, StakerStatus,
+	constants::currency::*, AccountId, BabeConfig, RuntimeGenesisConfig, SessionConfig, StakerStatus,
 	StakingConfig, BABE_GENESIS_EPOCH_CONFIG,
 };
 use sp_keyring::{Ed25519Keyring, Sr25519Keyring};
@@ -48,8 +47,7 @@ pub fn config_endowed(extra_endowed: Vec<AccountId>) -> RuntimeGenesisConfig {
 
 	RuntimeGenesisConfig {
 		system: Default::default(),
-		indices: IndicesConfig { indices: vec![] },
-		balances: BalancesConfig { balances: endowed },
+		// balances: BalancesConfig { balances: endowed },
 		session: SessionConfig {
 			keys: vec![
 				(alice(), dave(), to_session_keys(&Ed25519Keyring::Alice, &Sr25519Keyring::Alice)),
@@ -78,33 +76,29 @@ pub fn config_endowed(extra_endowed: Vec<AccountId>) -> RuntimeGenesisConfig {
 			epoch_config: Some(BABE_GENESIS_EPOCH_CONFIG),
 			..Default::default()
 		},
-		grandpa: GrandpaConfig { authorities: vec![], _config: Default::default() },
-		im_online: Default::default(),
-		authority_discovery: Default::default(),
-		democracy: Default::default(),
-		council: Default::default(),
-		technical_committee: Default::default(),
-		technical_membership: Default::default(),
-		elections: Default::default(),
+		// grandpa: GrandpaConfig { authorities: vec![], _config: Default::default() },
+		// im_online: Default::default(),
+		// authority_discovery: Default::default(),
+		// technical_committee: Default::default(),
 		sudo: Default::default(),
-		treasury: Default::default(),
-		society: SocietyConfig { pot: 0 },
-		vesting: Default::default(),
-		assets: AssetsConfig { assets: vec![(9, alice(), true, 1)], ..Default::default() },
-		pool_assets: Default::default(),
-		transaction_storage: Default::default(),
-		transaction_payment: Default::default(),
-		alliance: Default::default(),
-		alliance_motion: Default::default(),
-		nomination_pools: Default::default(),
-		safe_mode: Default::default(),
-		tx_pause: Default::default(),
-		glutton: GluttonConfig {
-			compute: Default::default(),
-			storage: Default::default(),
-			trash_data_count: Default::default(),
-			..Default::default()
-		},
-		mixnet: Default::default(),
+		// treasury: Default::default(),
+		// society: SocietyConfig { pot: 0 },
+		// vesting: Default::default(),
+		// assets: AssetsConfig { assets: vec![(9, alice(), true, 1)], ..Default::default() },
+		// pool_assets: Default::default(),
+		// transaction_storage: Default::default(),
+		// transaction_payment: Default::default(),
+		// alliance: Default::default(),
+		// alliance_motion: Default::default(),
+		// nomination_pools: Default::default(),
+		// safe_mode: Default::default(),
+		// tx_pause: Default::default(),
+		// glutton: GluttonConfig {
+		// 	compute: Default::default(),
+		// 	storage: Default::default(),
+		// 	trash_data_count: Default::default(),
+		// 	..Default::default()
+		// },
+		..Default::default()
 	}
 }

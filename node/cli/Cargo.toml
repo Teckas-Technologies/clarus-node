@@ -95,6 +95,7 @@ pallet-asset-conversion-tx-payment = { git = "https://github.com/paritytech/polk
 pallet-asset-tx-payment = { git = "https://github.com/paritytech/polkadot-sdk.git", tag = "v1.4.0" }
 pallet-im-online = { git = "https://github.com/paritytech/polkadot-sdk.git", tag = "v1.4.0", default-features = false}
 pallet-skip-feeless-payment = { git = "https://github.com/paritytech/polkadot-sdk.git", tag = "v1.4.0", default-features = false}
+pallet-transaction-payment = { version = "4.0.0-dev", tag = "v1.4.0", git = "https://github.com/paritytech/polkadot-sdk.git" }
 
 # node-specific local dependencies
 clarus-runtime = { path = "../../runtime" }

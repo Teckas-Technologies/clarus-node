@@ -44,6 +44,7 @@ sp-keyring = { git = "https://github.com/paritytech/polkadot-sdk.git", tag = "v1
 sp-runtime = { git = "https://github.com/paritytech/polkadot-sdk.git", tag = "v1.4.0" }
 sp-timestamp = { git = "https://github.com/paritytech/polkadot-sdk.git", tag = "v1.4.0", default-features = false}
 substrate-test-client = { git = "https://github.com/paritytech/polkadot-sdk.git", tag = "v1.4.0" }
+pallet-transaction-payment = { version = "4.0.0-dev", tag = "v1.4.0", git = "https://github.com/paritytech/polkadot-sdk.git" }
 
 #local dependencies
 node-primitives = { path = "../primitives" }

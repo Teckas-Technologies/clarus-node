@@ -70,7 +70,7 @@ fn session_keys(
 	authority_discovery: AuthorityDiscoveryId,
 	mixnet: MixnetId,
 ) -> SessionKeys {
-	SessionKeys { grandpa, babe, im_online, authority_discovery, mixnet }
+	SessionKeys { grandpa, babe, im_online, authority_discovery }
 }
 
 fn configure_accounts_for_clarus_testnet() -> (

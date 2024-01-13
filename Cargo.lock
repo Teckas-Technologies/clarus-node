@@ -1364,6 +1364,7 @@ dependencies = [
  "pallet-im-online",
  "pallet-skip-feeless-payment",
  "pallet-timestamp",
+ "pallet-transaction-payment",
  "parity-scale-codec",
  "platforms",
  "rand 0.8.5",
@@ -1488,6 +1489,7 @@ name = "clarus-runtime"
 version = "3.0.0-dev"
 dependencies = [
  "clarus-mandate",
+ "clarus_relayer",
  "frame-benchmarking 4.0.0-dev (git+https://github.com/paritytech/polkadot-sdk.git?tag=v1.4.0)",
  "frame-benchmarking-pallet-pov",
  "frame-election-provider-support",
@@ -1566,6 +1568,7 @@ dependencies = [
  "pallet-sudo",
  "pallet-timestamp",
  "pallet-tips",
+ "pallet-token",
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc-runtime-api",
  "pallet-transaction-storage",
@@ -5743,6 +5746,7 @@ dependencies = [
  "pallet-asset-tx-payment",
  "pallet-assets",
  "pallet-skip-feeless-payment",
+ "pallet-transaction-payment",
  "parity-scale-codec",
  "sc-block-builder",
  "sc-client-api",

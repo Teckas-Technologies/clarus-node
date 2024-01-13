@@ -9,6 +9,7 @@ members = [
     "node/rpc",
     "node/testing",
     "runtime",
+    "utils",
     "pallet/token",
     "pallet/mandate",
     "pallet/relayer",
