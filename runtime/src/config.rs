@@ -323,23 +323,23 @@ impl frame_system::Config for Runtime {
     type MaxConsumers = ConstU32<16>;
 }
 
-// /// Technical collective config
-// pub type TechnicalCollective = pallet_collective::Instance2;
-// impl pallet_collective::Config<TechnicalCollective> for Runtime {
-// 	type RuntimeOrigin = RuntimeOrigin;
-// 	type Proposal = RuntimeCall;
-// 	type RuntimeEvent = RuntimeEvent;
-// 	type MotionDuration = TechnicalMotionDuration;
-// 	type MaxProposals = TechnicalMaxProposals;
-// 	type MaxMembers = TechnicalMaxMembers;
-// 	type DefaultVote = pallet_collective::PrimeDefaultVote;
-// 	type WeightInfo = pallet_collective::weights::SubstrateWeight<Runtime>;
-//     type SetMembersOrigin = EnsureRoot<Self::AccountId>;
-// 	type MaxProposalWeight = MaxCollectivesProposalWeight;
-// }
+/// Technical collective config
+pub type TechnicalCollective = pallet_collective::Instance1;
+impl pallet_collective::Config<TechnicalCollective> for Runtime {
+	type RuntimeOrigin = RuntimeOrigin;
+	type Proposal = RuntimeCall;
+	type RuntimeEvent = RuntimeEvent;
+	type MotionDuration = TechnicalMotionDuration;
+	type MaxProposals = TechnicalMaxProposals;
+	type MaxMembers = TechnicalMaxMembers;
+	type DefaultVote = pallet_collective::PrimeDefaultVote;
+	type WeightInfo = pallet_collective::weights::SubstrateWeight<Runtime>;
+    type SetMembersOrigin = EnsureRoot<Self::AccountId>;
+	type MaxProposalWeight = MaxCollectivesProposalWeight;
+}
 
 // /// pallet mandat config
-// impl mandate::Config for Runtime {
+// impl clarus_mandate::Config for Runtime {
 // 	type RuntimeEvent = RuntimeEvent;
 // 	type RuntimeCall = RuntimeCall;
 // 	type ExternalOrigin =

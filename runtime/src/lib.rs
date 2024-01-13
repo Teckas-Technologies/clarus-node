@@ -364,6 +364,9 @@ construct_runtime!(
         Multisig: pallet_multisig = 116,
         VoterList: pallet_bags_list::<Instance1>::{Pallet, Storage, Event<T>} = 117,
         NominationPools: pallet_nomination_pools::{Pallet, Storage, Event<T>, FreezeReason} = 118,
+        TechnicalCommittee: pallet_collective::<Instance1> = 119,
+
+        // Mandate: clarus_mandate = 120,
         // Nfts: pallet_nfts = 119,
     }
 );

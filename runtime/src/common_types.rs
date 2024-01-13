@@ -164,3 +164,9 @@ parameter_types! {
         .targets_count(1_500.into())
         .build();
 }
+
+parameter_types! {
+	pub TechnicalMotionDuration: BlockNumber = 10 * MINUTES;
+	pub const TechnicalMaxProposals: u32 = 100;
+	pub const TechnicalMaxMembers: u32 = 100;
+}
