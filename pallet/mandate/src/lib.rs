@@ -19,9 +19,9 @@
 pub use pallet::*;
 
 use frame_support::{
-	dispatch::{DispatchResultWithPostInfo, GetDispatchInfo},
-	pallet_prelude::*,
-	traits::{ StorageVersion, UnfilteredDispatchable},
+    dispatch::{DispatchResultWithPostInfo, GetDispatchInfo},
+    pallet_prelude::*,
+    traits::{StorageVersion, UnfilteredDispatchable},
 };
 
 use frame_system::pallet_prelude::*;
@@ -31,53 +31,53 @@ const STORAGE_VERSION: StorageVersion = StorageVersion::new(1);
 
 #[frame_support::pallet]
 pub mod pallet {
-	use super::*;
+    use super::*;
 
-	/// Configure the pallet by specifying the parameters and types on which it depends.
-	#[pallet::config]
-	pub trait Config: frame_system::Config {
-		/// Because this pallet emits events, it depends on the runtime's definition of an event.
-		type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
+    /// Configure the pallet by specifying the parameters and types on which it depends.
+    #[pallet::config]
+    pub trait Config: frame_system::Config {
+        /// Because this pallet emits events, it depends on the runtime's definition of an event.
+        type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
 
-		/// A sudo-able call.
-		type RuntimeCall: Parameter
-			+ UnfilteredDispatchable<RuntimeOrigin = Self::RuntimeOrigin>
-			+ GetDispatchInfo;
+        /// A sudo-able call.
+        type RuntimeCall: Parameter
+            + UnfilteredDispatchable<RuntimeOrigin = Self::RuntimeOrigin>
+            + GetDispatchInfo;
 
-		// Someone who can call the mandate extrinsic.
-		type ExternalOrigin: EnsureOrigin<Self::RuntimeOrigin>;
-	}
+        // Someone who can call the mandate extrinsic.
+        type ExternalOrigin: EnsureOrigin<Self::RuntimeOrigin>;
+    }
 
-	#[pallet::pallet]
-	#[pallet::generate_store(pub(super) trait Store)]
-	#[pallet::storage_version(STORAGE_VERSION)]
-	pub struct Pallet<T>(_);
+    #[pallet::pallet]
+    #[pallet::generate_store(pub(super) trait Store)]
+    #[pallet::storage_version(STORAGE_VERSION)]
+    pub struct Pallet<T>(_);
 
-	#[pallet::call]
-	impl<T: Config> Pallet<T> {
-		#[pallet::weight({
+    #[pallet::call]
+    impl<T: Config> Pallet<T> {
+        #[pallet::weight({
 			let dispatch_info = call.get_dispatch_info();
 			(dispatch_info.weight, dispatch_info.class)
 		})]
-		pub fn mandate(
-			origin: OriginFor<T>,
-			call: Box<<T as Config>::RuntimeCall>,
-		) -> DispatchResultWithPostInfo {
-			T::ExternalOrigin::ensure_origin(origin)?;
+        pub fn mandate(
+            origin: OriginFor<T>,
+            call: Box<<T as Config>::RuntimeCall>,
+        ) -> DispatchResultWithPostInfo {
+            T::ExternalOrigin::ensure_origin(origin)?;
 
-			let res = call.dispatch_bypass_filter(frame_system::RawOrigin::Root.into());
+            let res = call.dispatch_bypass_filter(frame_system::RawOrigin::Root.into());
 
-			let result = res.map(|_| ()).map_err(|e| e.error);
-			Self::deposit_event(Event::RootOp { result });
+            let result = res.map(|_| ()).map_err(|e| e.error);
+            Self::deposit_event(Event::RootOp { result });
 
-			// Free action :)
-			Ok(Pays::No.into())
-		}
-	}
-	#[pallet::event]
-	#[pallet::generate_deposit(pub(super) fn deposit_event)]
-	pub enum Event<T: Config> {
-		/// A root operation was executed, show result
-		RootOp { result: DispatchResult },
-	}
+            // Free action :)
+            Ok(Pays::No.into())
+        }
+    }
+    #[pallet::event]
+    #[pallet::generate_deposit(pub(super) fn deposit_event)]
+    pub enum Event<T: Config> {
+        /// A root operation was executed, show result
+        RootOp { result: DispatchResult },
+    }
 }

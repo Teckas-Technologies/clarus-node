@@ -19,9 +19,9 @@
 pub use pallet::*;
 
 use frame_support::{
-	dispatch::{DispatchResultWithPostInfo, GetDispatchInfo},
-	pallet_prelude::*,
-	traits::{ StorageVersion, UnfilteredDispatchable},
+    dispatch::{DispatchResultWithPostInfo, GetDispatchInfo},
+    pallet_prelude::*,
+    traits::{StorageVersion, UnfilteredDispatchable},
 };
 use frame_system::pallet_prelude::*;
 use sp_std::prelude::*;
@@ -30,91 +30,94 @@ const STORAGE_VERSION: StorageVersion = StorageVersion::new(1);
 
 #[frame_support::pallet]
 pub mod pallet {
-	use super::*;
+    use super::*;
 
-	/// Configure the pallet by specifying the parameters and types on which it depends.
-	#[pallet::config]
-	pub trait Config: frame_system::Config {
-		/// Because this pallet emits events, it depends on the runtime's definition of an event.
-		type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
+    /// Configure the pallet by specifying the parameters and types on which it depends.
+    #[pallet::config]
+    pub trait Config: frame_system::Config {
+        /// Because this pallet emits events, it depends on the runtime's definition of an event.
+        type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
 
-		/// A sudo-able call.
-		type RuntimeCall: Parameter
-			+ UnfilteredDispatchable<RuntimeOrigin = Self::RuntimeOrigin>
-			+ GetDispatchInfo;
+        /// A sudo-able call.
+        type RuntimeCall: Parameter
+            + UnfilteredDispatchable<RuntimeOrigin = Self::RuntimeOrigin>
+            + GetDispatchInfo;
 
-		// Someone who can call the mandate extrinsic.
-		type ExternalOrigin: EnsureOrigin<Self::RuntimeOrigin>;
-	}
+        // Someone who can call the mandate extrinsic.
+        type ExternalOrigin: EnsureOrigin<Self::RuntimeOrigin>;
+    }
 
-	#[pallet::pallet]
-	#[pallet::generate_store(pub(super) trait Store)]
-	#[pallet::storage_version(STORAGE_VERSION)]
-	pub struct Pallet<T>(_);
+    #[pallet::pallet]
+    #[pallet::generate_store(pub(super) trait Store)]
+    #[pallet::storage_version(STORAGE_VERSION)]
+    pub struct Pallet<T>(_);
 
     #[pallet::storage]
-	pub type Relayer<T: Config> = StorageValue<_, T::AccountId, OptionQuery>;
+    pub type Relayer<T: Config> = StorageValue<_, T::AccountId, OptionQuery>;
 
-	#[pallet::call]
-	impl<T: Config> Pallet<T> {
-		// #[pallet::weight({
-		// 	let dispatch_info = call.get_dispatch_info();
-		// 	(dispatch_info.weight, dispatch_info.class)
-		// })]
-		#[pallet::weight(10000000)]
-		pub fn register_relayer(
-			origin: OriginFor<T>,
-			address: T::AccountId,
-		) -> DispatchResult {
-			T::ExternalOrigin::ensure_origin(origin)?;
+    #[pallet::call]
+    impl<T: Config> Pallet<T> {
+        // #[pallet::weight({
+        // 	let dispatch_info = call.get_dispatch_info();
+        // 	(dispatch_info.weight, dispatch_info.class)
+        // })]
+        #[pallet::weight(10000000)]
+        pub fn register_relayer(origin: OriginFor<T>, address: T::AccountId) -> DispatchResult {
+            T::ExternalOrigin::ensure_origin(origin)?;
 
             Relayer::<T>::mutate(|user| {
                 *user = Some(address.clone());
             });
 
-			Self::deposit_event(Event::NewRegistration { address, role: "relayer".as_bytes().to_vec() });
+            Self::deposit_event(Event::NewRegistration {
+                address,
+                role: "relayer".as_bytes().to_vec(),
+            });
 
-			Ok(())
-		}
+            Ok(())
+        }
 
-		#[pallet::weight(10000000)]
-        pub fn update_relayer(
-			origin: OriginFor<T>,
-			address: T::AccountId,
-		) -> DispatchResult {
-			T::ExternalOrigin::ensure_origin(origin)?;
+        #[pallet::weight(10000000)]
+        pub fn update_relayer(origin: OriginFor<T>, address: T::AccountId) -> DispatchResult {
+            T::ExternalOrigin::ensure_origin(origin)?;
 
             // Relayer::try_mutate_exists(|user_opt| {
-			// 	if let Some(user) => user_opt {
-			// 		user = address;
-			// 	}
+            // 	if let Some(user) => user_opt {
+            // 		user = address;
+            // 	}
             // });
 
-			Self::deposit_event(Event::NewRegistration { address, role: "relayer".as_bytes().to_vec() });
+            Self::deposit_event(Event::NewRegistration {
+                address,
+                role: "relayer".as_bytes().to_vec(),
+            });
 
-			Ok(())
-		}
+            Ok(())
+        }
 
-		#[pallet::weight(10000000)]
-		pub fn remove_relayer(
-			origin: OriginFor<T>,
-			address: T::AccountId,
-		) -> DispatchResult {
-			T::ExternalOrigin::ensure_origin(origin)?;
+        #[pallet::weight(10000000)]
+        pub fn remove_relayer(origin: OriginFor<T>, address: T::AccountId) -> DispatchResult {
+            T::ExternalOrigin::ensure_origin(origin)?;
 
             // Relayer::try_mutate_exists(|user_opt| {
             //     user = address;
             // });
 
-			Self::deposit_event(Event::NewRegistration { address, role: "relayer".as_bytes().to_vec() });
+            Self::deposit_event(Event::NewRegistration {
+                address,
+                role: "relayer".as_bytes().to_vec(),
+            });
 
-			Ok(())
-		}
-	}
-	#[pallet::event]
-	#[pallet::generate_deposit(pub(super) fn deposit_event)]
-	pub enum Event<T: Config> {
-		/// A root operation was executed, show result
-	    NewRegistration { address: T::AccountId, role: Vec<u8> },
-	}
+            Ok(())
+        }
+    }
+    #[pallet::event]
+    #[pallet::generate_deposit(pub(super) fn deposit_event)]
+    pub enum Event<T: Config> {
+        /// A root operation was executed, show result
+        NewRegistration {
+            address: T::AccountId,
+            role: Vec<u8>,
+        },
+    }
 }
