@@ -38,7 +38,7 @@ use frame_support::{
     dispatch::DispatchClass,
     pallet_prelude::Get,
     parameter_types,
-    traits::{ConstU16, ConstU32, Currency, Imbalance, KeyOwnerProofSystem, OnUnbalanced},
+    traits::{ConstU16, ConstU32, Currency, Imbalance, KeyOwnerProofSystem, OnUnbalanced, AsEnsureOriginWithArg},
     weights::{
         constants::{
             BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_REF_TIME_PER_SECOND,
@@ -67,7 +67,7 @@ use sp_runtime::{
     create_runtime_str, generic, impl_opaque_keys,
     traits::{
         self, BlakeTwo256, Block as BlockT, Bounded, NumberFor, OpaqueKeys, SaturatedConversion,
-        StaticLookup,
+        StaticLookup, 
     },
     transaction_validity::{TransactionPriority, TransactionSource, TransactionValidity},
     ApplyExtrinsicResult, FixedPointNumber, Perbill, Percent, Perquintill,
@@ -342,31 +342,34 @@ impl OnUnbalanced<NegativeImbalance> for DealWithFees {
 construct_runtime!(
     pub struct Runtime
     {
-        Staking: pallet_staking::{Pallet, Storage, Config<T>, Event<T>} = 5,
         //Substrate dependencies
-        System: frame_system = 101,
-        Balances: pallet_balances::{Pallet, Call, Storage, Event<T>} = 102,
-        Babe: pallet_babe = 103,
-        Timestamp: pallet_timestamp = 104,
+        System: frame_system = 1,
+        Balances: pallet_balances::{Pallet, Call, Storage, Event<T>} = 2,
+        Babe: pallet_babe = 3,
+        Timestamp: pallet_timestamp = 4,
         // Authorship must be before session in order to note author in the correct session and era
         // for im-online and staking.
-        Authorship: pallet_authorship::{Pallet, Storage} = 105,
-        Indices: pallet_indices::{Pallet, Storage, Event<T>} = 106,
-        TransactionPayment: pallet_transaction_payment::{Pallet, Storage, Event<T>} = 107,
-        ElectionProviderMultiPhase: pallet_election_provider_multi_phase = 108,
-        Session: pallet_session = 109,
-        Grandpa: pallet_grandpa::{Pallet, Storage, Event, Call} = 110,
-        Sudo: pallet_sudo = 111,
-        ImOnline: pallet_im_online::{Pallet, Storage, Event<T>, Call} = 112,
-        AuthorityDiscovery: pallet_authority_discovery::{Pallet, Storage} = 113,
-        Offences: pallet_offences = 114,
-        Historical: pallet_session_historical::{Pallet} = 115,
-        Multisig: pallet_multisig = 116,
-        VoterList: pallet_bags_list::<Instance1>::{Pallet, Storage, Event<T>} = 117,
-        NominationPools: pallet_nomination_pools::{Pallet, Storage, Event<T>, FreezeReason} = 118,
-        TechnicalCommittee: pallet_collective::<Instance1> = 119,
+        Authorship: pallet_authorship::{Pallet, Storage} = 5,
+        Indices: pallet_indices::{Pallet, Storage, Event<T>} = 6,
+        TransactionPayment: pallet_transaction_payment::{Pallet, Storage, Event<T>} = 7,
+        ElectionProviderMultiPhase: pallet_election_provider_multi_phase = 8,
+        Session: pallet_session = 9,
+        Grandpa: pallet_grandpa::{Pallet, Storage, Event, Call} = 10,
+        Sudo: pallet_sudo = 11,
+        ImOnline: pallet_im_online::{Pallet, Storage, Event<T>, Call} = 12,
+        AuthorityDiscovery: pallet_authority_discovery::{Pallet, Storage} = 13,
+        Offences: pallet_offences = 14,
+        Historical: pallet_session_historical::{Pallet} = 15,
+        Multisig: pallet_multisig = 16,
+        Staking: pallet_staking::{Pallet, Storage, Config<T>, Event<T>} = 17,
+        VoterList: pallet_bags_list::<Instance1>::{Pallet, Storage, Event<T>} = 18,
+        NominationPools: pallet_nomination_pools::{Pallet, Storage, Event<T>, FreezeReason} = 19,
+        TechnicalCommittee: pallet_collective::<Instance1> = 20,
 
-        // Mandate: clarus_mandate = 120,
+        // TokenWrapper: pallet_token = 51,
+        // TokenWrapper: pallet_token = 51,
+        // Relayer: clarus_relayer = 52, 
+        // Mandate: clarus_mandate = 53,
         // Nfts: pallet_nfts = 119,
     }
 );

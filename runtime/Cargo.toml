@@ -141,7 +141,7 @@ pallet-safe-mode = { git = "https://github.com/paritytech/polkadot-sdk.git", tag
 #local
 utils = { version = "0.1.0", path = "../utils", default-features = false }
 clarus-mandate = { version = "1.0.0", path = "../pallet/mandate", default-features = false }
-clarus_relayer = { version = "1.0.0", path = "../pallet/relayer", default-features = false }
+clarus-relayer = { version = "1.0.0", path = "../pallet/relayer", default-features = false }
 pallet-token = { version = "1.0.0", path = "../pallet/token", default-features = false }
 
 [build-dependencies]
@@ -262,7 +262,7 @@ std = [
 	"sp-version/std",
 	"substrate-wasm-builder",
 	#local
-	"clarus_relayer/std",
+	"clarus-relayer/std",
 	"pallet-token/std",
 	"clarus-mandate/std",
 	"utils/std"

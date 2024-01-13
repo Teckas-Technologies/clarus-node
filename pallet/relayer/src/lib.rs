@@ -34,17 +34,17 @@ pub mod pallet {
 
     /// Configure the pallet by specifying the parameters and types on which it depends.
     #[pallet::config]
-    pub trait Config: frame_system::Config {
+    pub trait Config: frame_system::Config + pallet_token::Config {
         /// Because this pallet emits events, it depends on the runtime's definition of an event.
         type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
 
         /// A sudo-able call.
-        type RuntimeCall: Parameter
-            + UnfilteredDispatchable<RuntimeOrigin = Self::RuntimeOrigin>
-            + GetDispatchInfo;
+        type RuntimeCall: From<Call<Self>>;
 
+        #[pallet::constant]
+		type WBtcAssetId: Get<Self::AssetId>;
         // Someone who can call the mandate extrinsic.
-        type ExternalOrigin: EnsureOrigin<Self::RuntimeOrigin>;
+       // type ExternalOrigin: EnsureOrigin<Self::RuntimeOrigin>;
     }
 
     #[pallet::pallet]
@@ -63,7 +63,7 @@ pub mod pallet {
         // })]
         #[pallet::weight(10000000)]
         pub fn register_relayer(origin: OriginFor<T>, address: T::AccountId) -> DispatchResult {
-            T::ExternalOrigin::ensure_origin(origin)?;
+            ensure_signed(origin)?;
 
             Relayer::<T>::mutate(|user| {
                 *user = Some(address.clone());
@@ -79,35 +79,64 @@ pub mod pallet {
 
         #[pallet::weight(10000000)]
         pub fn update_relayer(origin: OriginFor<T>, address: T::AccountId) -> DispatchResult {
-            T::ExternalOrigin::ensure_origin(origin)?;
+            ensure_signed(origin)?;
 
-            // Relayer::try_mutate_exists(|user_opt| {
-            // 	if let Some(user) => user_opt {
-            // 		user = address;
-            // 	}
-            // });
+            Relayer::<T>::try_mutate_exists(|user_opt| {
+            	if let Some(user) = user_opt {
 
-            Self::deposit_event(Event::NewRegistration {
-                address,
-                role: "relayer".as_bytes().to_vec(),
+                    Self::deposit_event(Event::RelayerUpdated {
+                        old_address: user.clone(),
+                        new_address: address.clone()
+                    });
+
+            		*user = address;
+            	}
+                Ok(())
+            })
+        }
+
+        #[pallet::weight(10000000)]
+        pub fn remove_relayer(origin: OriginFor<T>) -> DispatchResult {
+            ensure_signed(origin)?;
+
+            Relayer::<T>::try_mutate_exists(|user_opt| {
+                if let Some(user) = user_opt {
+                    Self::deposit_event(Event::RelayersRemoved {
+                        address: user.clone(),
+                        role: "relayer".as_bytes().to_vec(),
+                    });
+                }
+                *user_opt = None;
+                Ok(())
+            })
+        }
+
+        #[pallet::weight(10000000)]
+        pub fn mint_wrapper_token(origin: OriginFor<T>, address: T::AccountId, amount: T::Balance, bitcoin_address: Vec<u8>) -> DispatchResult {
+            let rel = ensure_signed(origin);
+            let assetid: T::AssetId = T::WBtcAssetId::get();
+            <pallet_token::Pallet<T>>::mint(origin.clone(), assetid, address.clone(), amount)?;
+            Self::deposit_event(Event::WBtcAdded {
+                relayer: rel,
+                user: address,
+                amount,
+                bitcoin_address
             });
 
             Ok(())
         }
 
         #[pallet::weight(10000000)]
-        pub fn remove_relayer(origin: OriginFor<T>, address: T::AccountId) -> DispatchResult {
-            T::ExternalOrigin::ensure_origin(origin)?;
-
-            // Relayer::try_mutate_exists(|user_opt| {
-            //     user = address;
-            // });
-
-            Self::deposit_event(Event::NewRegistration {
-                address,
-                role: "relayer".as_bytes().to_vec(),
+        pub fn burn_wrapper_token(origin: OriginFor<T>, address: T::AccountId, amount: T::Balance, bitcoin_address: Vec<u8>) -> DispatchResult {
+            let rel = ensure_signed(origin);
+            let assetid: T::AssetId = T::WBtcAssetId::get();
+            <pallet_token::Pallet<T>>::burn(origin.clone(), assetid, address.clone(), amount)?;
+            Self::deposit_event(Event::WBtcDeleted {
+                relayer: rel,
+                user: address,
+                amount,
+                bitcoin_address
             });
-
             Ok(())
         }
     }
@@ -119,5 +148,30 @@ pub mod pallet {
             address: T::AccountId,
             role: Vec<u8>,
         },
+        /// A relayer is removed
+        RelayersRemoved {
+            address: T::AccountId,
+            role: Vec<u8>,
+        },
+        /// A relayer address is updated
+        RelayerUpdated {
+            old_address: T::AccountId,
+            new_address: T::AccountId,
+        },
+        /// Relayer minted wrapped btc successfully
+        WBtcAdded {
+            relayer: T::AccountId,
+            user: T::AccountId,
+            amount: T::Balance,
+            bitcoin_address: Vec<u8>,
+        },
+        /// Relayer burn wrapped btc successfully
+        WBtcDeleted {
+            relayer: T::AccountId,
+            user: T::AccountId,
+            amount: T::Balance,
+            bitcoin_address: Vec<u8>,
+        }
+
     }
 }

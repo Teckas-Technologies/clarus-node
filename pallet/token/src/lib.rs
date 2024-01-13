@@ -73,6 +73,19 @@ pub mod pallet {
         /// Because this pallet emits events, it depends on the runtime's definition of an event.
         type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
 
+        // The overarching dispatch call type.
+		// type Call: From<Call<Self>>;
+
+        /// The units in which we record balances.
+        type Balance: Member
+            + Parameter
+            + AtLeast32BitUnsigned
+            + Default
+            + Copy
+            + MaybeSerializeDeserialize
+            + MaxEncodedLen
+            + TypeInfo;
+
         /// Identifier for the class of asset.
         type AssetId: Member
             + Parameter
@@ -97,28 +110,18 @@ pub mod pallet {
             + Into<Self::AssetId>
             + MaxEncodedLen;
 
-        /// The units in which we record balances.
-        type Balance: Member
-            + Parameter
-            + AtLeast32BitUnsigned
-            + Default
-            + Copy
-            + MaybeSerializeDeserialize
-            + MaxEncodedLen
-            + TypeInfo;
-
-        /// Standard asset class creation is only allowed if the origin attempting it and the
-        /// asset class are in this set.
-        type CreateOrigin: EnsureOriginWithArg<
-            Self::RuntimeOrigin,
-            Self::AssetId,
-            Success = Self::AccountId,
-        >;
+        // /// Standard asset class creation is only allowed if the origin attempting it and the
+        // /// asset class are in this set.
+        // type CreateOrigin: EnsureOriginWithArg<
+        //     Self::RuntimeOrigin,
+        //     Self::AssetId,
+        //     Success = Self::AccountId,
+        // >;
         /// The overarching WeightInfo type
         type WeightInfo: WeightInfo;
 
-        /// Callback methods for asset state change (e.g. asset created or destroyed)
-        type CallbackHandle: AssetsCallback<Self::AssetId, Self::AccountId>;
+        // Callback methods for asset state change (e.g. asset created or destroyed)
+        //type CallbackHandle: AssetsCallback<Self::AssetId, Self::AccountId>;
     }
 
     const STORAGE_VERSION: StorageVersion = StorageVersion::new(10);
@@ -278,7 +281,8 @@ pub mod pallet {
             symbol: Vec<u8>,
         ) -> DispatchResult {
             let id: T::AssetId = id.into();
-            let owner = T::CreateOrigin::ensure_origin(origin, &id)?;
+
+            let owner = ensure_signed(origin)?; //T::CreateOrigin::ensure_origin(origin, &id)?;
             let admin = T::Lookup::lookup(admin)?;
 
             ensure!(!Asset::<T>::contains_key(&id), Error::<T>::InUse);
@@ -300,10 +304,10 @@ pub mod pallet {
                     accounts: 0,
                 },
             );
-            ensure!(
-                T::CallbackHandle::created(&id, &owner).is_ok(),
-                Error::<T>::CallbackFailed
-            );
+            // ensure!(
+            //     T::CallbackHandle::created(&id, &owner).is_ok(),
+            //     Error::<T>::CallbackFailed
+            // );
             Self::deposit_event(Event::Created {
                 asset_id: id,
                 creator: owner.clone(),

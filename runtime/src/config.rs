@@ -345,3 +345,23 @@ impl pallet_collective::Config<TechnicalCollective> for Runtime {
 // 	type ExternalOrigin =
 // 		pallet_collective::EnsureProportionAtLeast<AccountId, TechnicalCollective, 1, 2>;
 // }
+
+// clarus_relayer config
+// impl clarus_relayer::Config for Runtime {
+// 	type RuntimeEvent = RuntimeEvent;
+// 	type RuntimeCall = RuntimeCall;
+// 	// type ExternalOrigin =
+// 	// 	pallet_collective::EnsureProportionAtLeast<AccountId, TechnicalCollective, 1, 2>;
+// }
+
+// pallet_token config
+// impl pallet_token::Config for Runtime {
+//     type RuntimeEvent = RuntimeEvent;
+//     type Call = RuntimeCall;
+// 	type Balance = u128;
+// 	type AssetId = u32;
+// 	type AssetIdParameter = codec::Compact<u32>;
+// 	//type CreateOrigin = AsEnsureOriginWithArg<EnsureSigned<AccountId>>;
+// 	//type CallbackHandle = ();
+// 	type WeightInfo = pallet_token::weights::SubstrateWeight<Runtime>;
+// }

@@ -1485,11 +1485,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "clarus-relayer"
+version = "1.0.0"
+dependencies = [
+ "frame-support 4.0.0-dev (git+https://github.com/paritytech/polkadot-sdk.git?branch=release-polkadot-v1.4.0)",
+ "frame-system 4.0.0-dev (git+https://github.com/paritytech/polkadot-sdk.git?branch=release-polkadot-v1.4.0)",
+ "pallet-token",
+ "parity-scale-codec",
+ "scale-info",
+ "sp-std 8.0.0 (git+https://github.com/paritytech/polkadot-sdk.git?branch=release-polkadot-v1.4.0)",
+]
+
+[[package]]
 name = "clarus-runtime"
 version = "3.0.0-dev"
 dependencies = [
  "clarus-mandate",
- "clarus_relayer",
+ "clarus-relayer",
  "frame-benchmarking 4.0.0-dev (git+https://github.com/paritytech/polkadot-sdk.git?tag=v1.4.0)",
  "frame-benchmarking-pallet-pov",
  "frame-election-provider-support",
@@ -1604,17 +1616,6 @@ dependencies = [
  "static_assertions",
  "substrate-wasm-builder",
  "utils",
-]
-
-[[package]]
-name = "clarus_relayer"
-version = "1.0.0"
-dependencies = [
- "frame-support 4.0.0-dev (git+https://github.com/paritytech/polkadot-sdk.git?branch=release-polkadot-v1.4.0)",
- "frame-system 4.0.0-dev (git+https://github.com/paritytech/polkadot-sdk.git?branch=release-polkadot-v1.4.0)",
- "parity-scale-codec",
- "scale-info",
- "sp-std 8.0.0 (git+https://github.com/paritytech/polkadot-sdk.git?branch=release-polkadot-v1.4.0)",
 ]
 
 [[package]]
