@@ -13,10 +13,10 @@ targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
 # Substrate Frame
-frame-support = { version = "4.0.0-dev", default-features = false, branch = "release-polkadot-v1.4.0", git = "https://github.com/paritytech/polkadot-sdk.git" }
-frame-system  = { version = "4.0.0-dev", default-features = false, branch = "release-polkadot-v1.4.0", git = "https://github.com/paritytech/polkadot-sdk.git" }
+frame-support = { version = "4.0.0-dev", default-features = false, tag = "v1.4.0", git = "https://github.com/paritytech/polkadot-sdk.git" }
+frame-system  = { version = "4.0.0-dev", default-features = false, tag = "v1.4.0", git = "https://github.com/paritytech/polkadot-sdk.git" }
 # Substrate Orubate
-sp-std = { version = "8.0.0", default-features = false, branch = "release-polkadot-v1.4.0", git = "https://github.com/paritytech/polkadot-sdk.git" }
+sp-std = { version = "8.0.0", default-features = false, tag = "v1.4.0", git = "https://github.com/paritytech/polkadot-sdk.git" }
 
 # Rest
 codec = { version = "3.6.1",     default-features = false, features = [ "derive", "max-encoded-len" ], package = "parity-scale-codec" }

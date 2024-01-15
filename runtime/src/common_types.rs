@@ -170,3 +170,7 @@ parameter_types! {
 	pub const TechnicalMaxProposals: u32 = 100;
 	pub const TechnicalMaxMembers: u32 = 100;
 }
+
+parameter_types! {
+    pub const AssetId: u32 = 1;
+}

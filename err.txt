@@ -7,28 +7,77 @@ warning: unused import: `frame_support::traits::EnsureOriginWithArg`
    = note: `#[warn(unused_imports)]` on by default
 
 warning: unused variable: `total_supply`
-   --> pallet/token/src/lib.rs:491:69
+   --> pallet/token/src/lib.rs:492:69
     |
-491 |             for (asset_id, (issuer, supply, accounts, name, symbol, total_supply, decimals)) in
+492 |             for (asset_id, (issuer, supply, accounts, name, symbol, total_supply, decimals)) in
     |                                                                     ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_total_supply`
     |
     = note: `#[warn(unused_variables)]` on by default
 
 warning: unused variable: `decimals`
-   --> pallet/token/src/lib.rs:491:83
+   --> pallet/token/src/lib.rs:492:83
     |
-491 |             for (asset_id, (issuer, supply, accounts, name, symbol, total_supply, decimals)) in
+492 |             for (asset_id, (issuer, supply, accounts, name, symbol, total_supply, decimals)) in
     |                                                                                   ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_decimals`
 
 warning: structure field `init__erc20_token` should have a snake case name
-   --> pallet/token/src/lib.rs:475:13
+   --> pallet/token/src/lib.rs:476:13
     |
-475 |         pub init__erc20_token: bool,
+476 |         pub init__erc20_token: bool,
     |             ^^^^^^^^^^^^^^^^^ help: convert the identifier to snake case: `init_erc20_token`
     |
     = note: `#[warn(non_snake_case)]` on by default
 
 warning: `pallet-token` (lib) generated 4 warnings (run `cargo fix --lib -p pallet-token` to apply 2 suggestions)
+warning: use of deprecated struct `pallet::_::Store`: 
+                 Use of `#[pallet::generate_store(pub(super) trait Store)]` will be removed after July 2023.
+                 Check https://github.com/paritytech/substrate/pull/13535 for more details.
+  --> pallet/mandate/src/lib.rs:52:6
+   |
+52 |     #[pallet::generate_store(pub(super) trait Store)]
+   |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated constant `pallet::warnings::ImplicitCallIndex_0::_w`: 
+                 It is deprecated to use implicit call indices.
+                 Please instead ensure that all calls have a `pallet::call_index` attribute or put the pallet into `dev` mode.
+         
+                 For more info see:
+                     <https://github.com/paritytech/substrate/pull/12891>
+                     <https://github.com/paritytech/substrate/pull/11381>
+  --> pallet/mandate/src/lib.rs:62:16
+   |
+62 |         pub fn mandate(
+   |                ^^^^^^^
+
+warning: `clarus-mandate` (lib) generated 2 warnings
+    Checking clarus-runtime v3.0.0-dev (/home/asmita/personal/project2_bitcoin/clarus/runtime)
+warning: external crate `mmr_rpc` unused in `node_rpc`: remove the dependency or add `use mmr_rpc as _;`
+  --> node/rpc/src/lib.rs:18:1
+   |
+18 | //! A collection of node-specific RPC methods.
+   | ^
+   |
+note: the lint level is defined here
+  --> node/rpc/src/lib.rs:32:9
+   |
+32 | #![warn(unused_crate_dependencies)]
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: external crate `sc_mixnet` unused in `node_rpc`: remove the dependency or add `use sc_mixnet as _;`
+  --> node/rpc/src/lib.rs:18:1
+   |
+18 | //! A collection of node-specific RPC methods.
+   | ^
+
+warning: external crate `sp_statement_store` unused in `node_rpc`: remove the dependency or add `use sp_statement_store as _;`
+  --> node/rpc/src/lib.rs:18:1
+   |
+18 | //! A collection of node-specific RPC methods.
+   | ^
+
+warning: `node-rpc` (lib) generated 3 warnings
 warning: unused import: `DispatchResultWithPostInfo`
   --> pallet/relayer/src/lib.rs:22:16
    |
@@ -56,7 +105,7 @@ warning: use of deprecated constant `pallet::warnings::ImplicitCallIndex_0::_w`:
                      <https://github.com/paritytech/substrate/pull/11381>
   --> pallet/relayer/src/lib.rs:65:16
    |
-65 |         pub fn register_relayer(origin: OriginFor<T>, address: T::AccountId) -> DispatchResult {
+65 |         pub fn register_relayer(origin: OriginFor<T>, address: <T as frame_system::Config>::AccountId) -> DispatchResult {
    |                ^^^^^^^^^^^^^^^^
 
 warning: use of deprecated constant `pallet::warnings::ImplicitCallIndex_1::_w`: 
@@ -68,7 +117,7 @@ warning: use of deprecated constant `pallet::warnings::ImplicitCallIndex_1::_w`:
                      <https://github.com/paritytech/substrate/pull/11381>
   --> pallet/relayer/src/lib.rs:81:16
    |
-81 |         pub fn update_relayer(origin: OriginFor<T>, address: T::AccountId) -> DispatchResult {
+81 |         pub fn update_relayer(origin: OriginFor<T>, address: <T as frame_system::Config>::AccountId) -> DispatchResult {
    |                ^^^^^^^^^^^^^^
 
 warning: use of deprecated constant `pallet::warnings::ImplicitCallIndex_2::_w`: 
@@ -82,6 +131,30 @@ warning: use of deprecated constant `pallet::warnings::ImplicitCallIndex_2::_w`:
    |
 99 |         pub fn remove_relayer(origin: OriginFor<T>) -> DispatchResult {
    |                ^^^^^^^^^^^^^^
+
+warning: use of deprecated constant `pallet::warnings::ImplicitCallIndex_3::_w`: 
+                 It is deprecated to use implicit call indices.
+                 Please instead ensure that all calls have a `pallet::call_index` attribute or put the pallet into `dev` mode.
+         
+                 For more info see:
+                     <https://github.com/paritytech/substrate/pull/12891>
+                     <https://github.com/paritytech/substrate/pull/11381>
+   --> pallet/relayer/src/lib.rs:115:16
+    |
+115 | ...   pub fn mint_wrapper_token(origin: OriginFor<T>, address: <T as frame_system::Config>::AccountId, amount: T::Balance, bitcoin_add...
+    |              ^^^^^^^^^^^^^^^^^^
+
+warning: use of deprecated constant `pallet::warnings::ImplicitCallIndex_4::_w`: 
+                 It is deprecated to use implicit call indices.
+                 Please instead ensure that all calls have a `pallet::call_index` attribute or put the pallet into `dev` mode.
+         
+                 For more info see:
+                     <https://github.com/paritytech/substrate/pull/12891>
+                     <https://github.com/paritytech/substrate/pull/11381>
+   --> pallet/relayer/src/lib.rs:130:16
+    |
+130 | ...   pub fn burn_wrapper_token(origin: OriginFor<T>, address: <T as frame_system::Config>::AccountId, amount: T::Balance, bitcoin_add...
+    |              ^^^^^^^^^^^^^^^^^^
 
 warning: use of deprecated constant `pallet::warnings::ConstantWeight_0::_w`: 
                  It is deprecated to use hard-coded constant as call weight.
@@ -116,76 +189,46 @@ warning: use of deprecated constant `pallet::warnings::ConstantWeight_2::_w`:
 98 |         #[pallet::weight(10000000)]
    |                          ^^^^^^^^
 
-warning: use of deprecated struct `pallet::_::Store`: 
-                 Use of `#[pallet::generate_store(pub(super) trait Store)]` will be removed after July 2023.
-                 Check https://github.com/paritytech/substrate/pull/13535 for more details.
-  --> pallet/mandate/src/lib.rs:52:6
-   |
-52 |     #[pallet::generate_store(pub(super) trait Store)]
-   |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = note: `#[warn(deprecated)]` on by default
-
-warning: use of deprecated constant `pallet::warnings::ImplicitCallIndex_0::_w`: 
-                 It is deprecated to use implicit call indices.
-                 Please instead ensure that all calls have a `pallet::call_index` attribute or put the pallet into `dev` mode.
+warning: use of deprecated constant `pallet::warnings::ConstantWeight_3::_w`: 
+                 It is deprecated to use hard-coded constant as call weight.
+                 Please instead benchmark all calls or put the pallet into `dev` mode.
          
                  For more info see:
-                     <https://github.com/paritytech/substrate/pull/12891>
-                     <https://github.com/paritytech/substrate/pull/11381>
-  --> pallet/mandate/src/lib.rs:62:16
-   |
-62 |         pub fn mandate(
-   |                ^^^^^^^
-
-warning: `clarus-relayer` (lib) generated 8 warnings (run `cargo fix --lib -p clarus-relayer` to apply 1 suggestion)
-warning: `clarus-mandate` (lib) generated 2 warnings
-    Checking clarus-runtime v3.0.0-dev (/home/asmita/personal/project2_bitcoin/clarus/runtime)
-warning: external crate `mmr_rpc` unused in `node_rpc`: remove the dependency or add `use mmr_rpc as _;`
-  --> node/rpc/src/lib.rs:18:1
-   |
-18 | //! A collection of node-specific RPC methods.
-   | ^
-   |
-note: the lint level is defined here
-  --> node/rpc/src/lib.rs:32:9
-   |
-32 | #![warn(unused_crate_dependencies)]
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-warning: external crate `sc_mixnet` unused in `node_rpc`: remove the dependency or add `use sc_mixnet as _;`
-  --> node/rpc/src/lib.rs:18:1
-   |
-18 | //! A collection of node-specific RPC methods.
-   | ^
-
-warning: external crate `sp_statement_store` unused in `node_rpc`: remove the dependency or add `use sp_statement_store as _;`
-  --> node/rpc/src/lib.rs:18:1
-   |
-18 | //! A collection of node-specific RPC methods.
-   | ^
-
-warning: `node-rpc` (lib) generated 3 warnings
-error: no rules expected the token `your_tt_return`
-   --> runtime/src/lib.rs:342:1
+                     <https://github.com/paritytech/substrate/pull/13798>
+   --> pallet/relayer/src/lib.rs:114:26
     |
-342 | / construct_runtime!(
-343 | |     pub struct Runtime
-344 | |     {
-345 | |         //Substrate dependencies
-...   |
-374 | |     }
-375 | | );
-    | |_^ no rules expected this token in macro call
+114 |         #[pallet::weight(10000000)]
+    |                          ^^^^^^^^
+
+warning: use of deprecated constant `pallet::warnings::ConstantWeight_4::_w`: 
+                 It is deprecated to use hard-coded constant as call weight.
+                 Please instead benchmark all calls or put the pallet into `dev` mode.
+         
+                 For more info see:
+                     <https://github.com/paritytech/substrate/pull/13798>
+   --> pallet/relayer/src/lib.rs:129:26
     |
-note: while trying to match `frame_support`
-   --> /home/asmita/personal/project2_bitcoin/clarus/pallet/token/src/lib.rs:59:1
+129 |         #[pallet::weight(10000000)]
+    |                          ^^^^^^^^
+
+warning: unused import: `GetDispatchInfo`
+  --> pallet/relayer/src/lib.rs:22:44
+   |
+22 |     dispatch::{DispatchResultWithPostInfo, GetDispatchInfo},
+   |                                            ^^^^^^^^^^^^^^^
+
+warning: unused import: `UnfilteredDispatchable`
+  --> pallet/relayer/src/lib.rs:24:30
+   |
+24 |     traits::{StorageVersion, UnfilteredDispatchable},
+   |                              ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `clarus-relayer` (lib) generated 14 warnings (run `cargo fix --lib -p clarus-relayer` to apply 1 suggestion)
+error[E0433]: failed to resolve: use of undeclared crate or module `clarus_relayer`
+   --> runtime/src/lib.rs:371:18
     |
-59  | #[frame_support::pallet]
-    | ^^^^^^^^^^^^^^^^^^^^^^^^
-    = note: captured metavariables except for `:tt`, `:ident` and `:lifetime` cannot be compared to other tokens
-    = note: see <https://doc.rust-lang.org/nightly/reference/macros-by-example.html#forwarding-a-matched-fragment> for more information
-    = note: this error originates in the macro `frame_support::__private::tt_call` which comes from the expansion of the attribute macro `frame_support::pallet` (in Nightly builds, run with -Z macro-backtrace for more info)
+371 |         Relayer: clarus_relayer = 52, 
+    |                  ^^^^^^^^^^^^^^ use of undeclared crate or module `clarus_relayer`
 
 error[E0412]: cannot find type `Runtime` in this scope
  --> runtime/src/config.rs:4:45
@@ -1229,6 +1272,29 @@ help: you might be missing a type parameter
     |     +++++++++
 
 error[E0412]: cannot find type `Runtime` in this scope
+   --> runtime/src/config.rs:342:33
+    |
+342 | impl clarus_mandate::Config for Runtime {
+    |                                 ^^^^^^^ not found in this scope
+    |
+help: there is an enum variant `sp_statement_store::Error::Runtime`; try using the variant's enum
+    |
+342 | impl clarus_mandate::Config for sp_statement_store::Error {
+    |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+error[E0412]: cannot find type `RuntimeEvent` in this scope
+   --> runtime/src/config.rs:343:22
+    |
+343 |     type RuntimeEvent = RuntimeEvent;
+    |                         ^^^^^^^^^^^^ help: you might have meant to use the associated type: `Self::RuntimeEvent`
+
+error[E0412]: cannot find type `RuntimeCall` in this scope
+   --> runtime/src/config.rs:344:21
+    |
+344 |     type RuntimeCall = RuntimeCall;
+    |                        ^^^^^^^^^^^ help: you might have meant to use the associated type: `Self::RuntimeCall`
+
+error[E0412]: cannot find type `Runtime` in this scope
    --> runtime/src/config.rs:350:33
     |
 350 | impl clarus_relayer::Config for Runtime {
@@ -1243,13 +1309,45 @@ error[E0412]: cannot find type `RuntimeEvent` in this scope
    --> runtime/src/config.rs:351:22
     |
 351 |     type RuntimeEvent = RuntimeEvent;
-    |                         ^^^^^^^^^^^^ help: you might have meant to use the associated type: `Self::RuntimeEvent`
+    |                         ^^^^^^^^^^^^ not found in this scope
 
 error[E0412]: cannot find type `RuntimeCall` in this scope
    --> runtime/src/config.rs:352:21
     |
 352 |     type RuntimeCall = RuntimeCall;
-    |                        ^^^^^^^^^^^ help: you might have meant to use the associated type: `Self::RuntimeCall`
+    |                        ^^^^^^^^^^^ not found in this scope
+
+error[E0412]: cannot find type `Runtime` in this scope
+   --> runtime/src/config.rs:359:31
+    |
+359 | impl pallet_token::Config for Runtime {
+    |                               ^^^^^^^ not found in this scope
+    |
+help: there is an enum variant `sp_statement_store::Error::Runtime`; try using the variant's enum
+    |
+359 | impl pallet_token::Config for sp_statement_store::Error {
+    |                               ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+error[E0412]: cannot find type `RuntimeEvent` in this scope
+   --> runtime/src/config.rs:360:25
+    |
+360 |     type RuntimeEvent = RuntimeEvent;
+    |                         ^^^^^^^^^^^^ help: you might have meant to use the associated type: `Self::RuntimeEvent`
+
+error[E0412]: cannot find type `Runtime` in this scope
+   --> runtime/src/config.rs:367:59
+    |
+367 |     type WeightInfo = pallet_token::weights::SubstrateWeight<Runtime>;
+    |                                                              ^^^^^^^ not found in this scope
+    |
+help: there is an enum variant `sp_statement_store::Error::Runtime`; try using the variant's enum
+    |
+367 |     type WeightInfo = pallet_token::weights::SubstrateWeight<sp_statement_store::Error>;
+    |                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~
+help: you might be missing a type parameter
+    |
+359 | impl<Runtime> pallet_token::Config for Runtime {
+    |     +++++++++
 
 error[E0412]: cannot find type `Balances` in this scope
    --> runtime/src/lib.rs:156:27
@@ -2073,11 +2171,17 @@ error[E0433]: failed to resolve: use of undeclared type `Balances`
    |             use of undeclared type `Balances`
    |             help: a type alias with a similar name exists: `Balance`
 
-error[E0277]: the trait bound `C: frame_system::offchain::AppCrypto<_, _>` is not satisfied
-   --> runtime/src/lib.rs:271:61
+error[E0433]: failed to resolve: use of undeclared crate or module `clarus_relayer`
+   --> runtime/src/config.rs:350:6
     |
-271 |         let signature = raw_payload.using_encoded(|payload| C::sign(payload, public))?;
-    |                                                             ^ the trait `frame_system::offchain::AppCrypto<_, _>` is not implemented for `C`
+350 | impl clarus_relayer::Config for Runtime {
+    |      ^^^^^^^^^^^^^^ use of undeclared crate or module `clarus_relayer`
+
+error[E0433]: failed to resolve: use of undeclared type `RuntimeCall`
+   --> runtime/src/lib.rs:179:13
+    |
+179 |             RuntimeCall::Balances(..)
+    |             ^^^^^^^^^^^ use of undeclared type `RuntimeCall`
 
 error[E0433]: failed to resolve: use of undeclared type `Indices`
    --> runtime/src/lib.rs:272:23
@@ -2117,18 +2221,6 @@ help: there is an enum variant `sp_statement_store::Error::Runtime`; try using t
     |
 477 |             sp_statement_store::Error()
     |             ~~~~~~~~~~~~~~~~~~~~~~~~~
-
-error[E0599]: no method named `create_extrinsics` found for struct `sp_inherents::InherentData` in the current scope
-   --> runtime/src/lib.rs:491:18
-    |
-491 |             data.create_extrinsics()
-    |                  ^^^^^^^^^^^^^^^^^ method not found in `InherentData`
-
-error[E0599]: no method named `check_extrinsics` found for struct `sp_inherents::InherentData` in the current scope
-   --> runtime/src/lib.rs:495:18
-    |
-495 |             data.check_extrinsics(&block)
-    |                  ^^^^^^^^^^^^^^^^ method not found in `InherentData`
 
 error[E0433]: failed to resolve: use of undeclared type `Grandpa`
    --> runtime/src/lib.rs:517:13
@@ -2280,49 +2372,7 @@ error[E0433]: failed to resolve: use of undeclared type `NominationPools`
 652 |             NominationPools::api_balance_to_points(pool_id, new_funds)
     |             ^^^^^^^^^^^^^^^ use of undeclared type `NominationPools`
 
-warning: unused import: `codec::Encode`
-   --> runtime/src/lib.rs:543:17
-    |
-543 |             use codec::Encode;
-    |                 ^^^^^^^^^^^^^
-
-warning: unused import: `StaticLookup`
-  --> runtime/src/lib.rs:70:9
-   |
-70 |         StaticLookup, 
-   |         ^^^^^^^^^^^^
-
-warning: unused import: `SaturatedConversion`
-  --> runtime/src/lib.rs:69:77
-   |
-69 |         self, BlakeTwo256, Block as BlockT, Bounded, NumberFor, OpaqueKeys, SaturatedConversion,
-   |                                                                             ^^^^^^^^^^^^^^^^^^^
-
-warning: unused import: `Encode`
-  --> runtime/src/lib.rs:31:21
-   |
-31 | use codec::{Decode, Encode};
-   |                     ^^^^^^
-
-warning: unused import: `codec::Encode`
-   --> runtime/src/lib.rs:580:17
-    |
-580 |             use codec::Encode;
-    |                 ^^^^^^^^^^^^^
-
-warning: unused import: `Imbalance`
-  --> runtime/src/lib.rs:41:44
-   |
-41 |     traits::{ConstU16, ConstU32, Currency, Imbalance, KeyOwnerProofSystem, OnUnbalanced, AsEnsureOriginWithArg},
-   |                                            ^^^^^^^^^
-
-error[E0433]: failed to resolve: use of undeclared type `RuntimeCall`
-   --> runtime/src/lib.rs:179:13
-    |
-179 |             RuntimeCall::Balances(..)
-    |             ^^^^^^^^^^^ use of undeclared type `RuntimeCall`
-
-Some errors have detailed explanations: E0277, E0412, E0433, E0599.
-For more information about an error, try `rustc --explain E0277`.
-warning: `clarus-runtime` (lib) generated 9 warnings
-error: could not compile `clarus-runtime` (lib) due to 195 previous errors; 9 warnings emitted
+Some errors have detailed explanations: E0412, E0433.
+For more information about an error, try `rustc --explain E0412`.
+warning: `clarus-runtime` (lib) generated 3 warnings
+error: could not compile `clarus-runtime` (lib) due to 199 previous errors; 3 warnings emitted

@@ -2,10 +2,13 @@
 
 use super::*;
 use frame_support::{
-    dispatch::{DispatchError, DispatchResult},
+    dispatch::{DispatchResult},
     ensure,
 };
-use sp_runtime::traits::{CheckedAdd, CheckedSub, Zero};
+use sp_runtime::{
+    DispatchError,
+    traits::{CheckedAdd, CheckedSub, Zero}
+};
 
 // implementation of mudule
 // utility and private functions
@@ -18,7 +21,7 @@ impl<T: Config> Pallet<T> {
         from: T::AccountId,
         to: T::AccountId,
         amount: T::Balance,
-    ) -> Result<(), DispatchError> {
+    ) -> DispatchResult {
         ensure!(
             <BalanceOf<T>>::contains_key(id, from.clone()),
             Error::<T>::AccountDoesNotOwnThisToken
@@ -71,7 +74,7 @@ impl<T: Config> Pallet<T> {
         id: T::AssetId,
         from: T::AccountId,
         to: T::AccountId,
-    ) -> Result<(), DispatchError> {
+    ) -> DispatchResult {
         if <BalanceOf<T>>::contains_key(id, &from) {
             Asset::<T>::try_mutate(id, |maybe_details| -> DispatchResult {
                 let details = maybe_details.as_mut().ok_or(Error::<T>::UnknownAsset)?;
@@ -187,7 +190,7 @@ impl<T: Config> Pallet<T> {
     pub(super) fn new_account(
         _who: &T::AccountId,
         d: &mut AssetDetails<T>,
-    ) -> Result<(), DispatchError> {
+    ) -> DispatchResult {
         let accounts = d
             .accounts
             .checked_add(1)

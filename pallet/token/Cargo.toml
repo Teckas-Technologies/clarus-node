@@ -20,20 +20,20 @@ features = ["serde_no_std", "codec"]
 
 [dev-dependencies.sp-core]
 default-features = false
-git = 'https://github.com/paritytech/substrate.git'
-branch = "polkadot-v1.0.0"
+git = "https://github.com/paritytech/polkadot-sdk.git"
+tag = "v1.4.0"
 version = '21.0.0'
 
 [dev-dependencies.sp-io]
 default-features = false
-git = 'https://github.com/paritytech/substrate.git'
-branch = "polkadot-v1.0.0"
+git = "https://github.com/paritytech/polkadot-sdk.git"
+tag = "v1.4.0"
 version = '23.0.0'
 
 [dev-dependencies.pallet-balances]
 default-features = false
-git = 'https://github.com/paritytech/substrate.git'
-branch = "polkadot-v1.0.0"
+git = "https://github.com/paritytech/polkadot-sdk.git"
+tag = "v1.4.0"
 version = '4.0.0-dev'
 
 [dependencies.codec]
@@ -44,39 +44,39 @@ version = '3.6.1'
 
 [dependencies.frame-benchmarking]
 default-features = false
-git = 'https://github.com/paritytech/substrate.git'
+git = "https://github.com/paritytech/polkadot-sdk.git"
 optional = true
-branch = "polkadot-v1.0.0"
+tag = "v1.4.0"
 version = '4.0.0-dev'
 
 [dependencies.frame-support]
 default-features = false
-git = 'https://github.com/paritytech/substrate.git'
-branch = "polkadot-v1.0.0"
+git = "https://github.com/paritytech/polkadot-sdk.git"
+tag = "v1.4.0"
 version = '4.0.0-dev'
 
 [dependencies.frame-system]
 default-features = false
-git = 'https://github.com/paritytech/substrate.git'
-branch = "polkadot-v1.0.0"
+git = "https://github.com/paritytech/polkadot-sdk.git"
+tag = "v1.4.0"
 version = '4.0.0-dev'
 
 [dependencies.sp-std]
 default-features = false
-git = 'https://github.com/paritytech/substrate.git'
-branch = "polkadot-v1.0.0"
+git = "https://github.com/paritytech/polkadot-sdk.git"
+tag = "v1.4.0"
 version = '8.0.0'
 
 [dependencies.sp-runtime]
 default-features = false
-git = 'https://github.com/paritytech/substrate.git'
-branch = "polkadot-v1.0.0"
+git = "https://github.com/paritytech/polkadot-sdk.git"
+tag = "v1.4.0"
 version = '24.0.0'
 
 [dependencies]
-serde_json = { version = '1.0.85', default-features = false, features = ['alloc'] }
-serde = { version = '1.0.163', default-features = false, features = ['derive'] }
-scale-info = { version = "2.5.0", default-features = false, features = ["derive"] }
+serde_json = { version = '1.0.108', default-features = false, features = ['alloc'] }
+serde = { version = '1.0.188', default-features = false, features = ['derive'] }
+scale-info = { version = "2.10.0", default-features = false, features = ["derive"] }
 
 [dependencies.log]
 default-features = false

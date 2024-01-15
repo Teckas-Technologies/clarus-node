@@ -60,11 +60,12 @@ pub struct AssetDetails<T: Config> {
 pub mod pallet {
     use super::*;
     use frame_support::traits::EnsureOriginWithArg;
-    use frame_support::{pallet_prelude::*, sp_std::vec};
+    use frame_support::{pallet_prelude::*};
     use frame_system::pallet_prelude::*;
     use sp_runtime::traits::AtLeast32BitUnsigned;
     use sp_runtime::traits::StaticLookup;
     use sp_runtime::traits::{CheckedAdd, CheckedSub};
+    use sp_std::vec;
 
     type AccountIdLookupOf<T> = <<T as frame_system::Config>::Lookup as StaticLookup>::Source;
     /// Configure the pallet by specifying the parameters and types on which it depends.

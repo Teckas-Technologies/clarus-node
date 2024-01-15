@@ -53,7 +53,7 @@ pub mod pallet {
     pub struct Pallet<T>(_);
 
     #[pallet::storage]
-    pub type Relayer<T: Config> = StorageValue<_, T::AccountId, OptionQuery>;
+    pub type Relayer<T: Config> = StorageValue<_, <T as frame_system::Config>::AccountId, OptionQuery>;
 
     #[pallet::call]
     impl<T: Config> Pallet<T> {
@@ -62,7 +62,7 @@ pub mod pallet {
         // 	(dispatch_info.weight, dispatch_info.class)
         // })]
         #[pallet::weight(10000000)]
-        pub fn register_relayer(origin: OriginFor<T>, address: T::AccountId) -> DispatchResult {
+        pub fn register_relayer(origin: OriginFor<T>, address: <T as frame_system::Config>::AccountId) -> DispatchResult {
             ensure_signed(origin)?;
 
             Relayer::<T>::mutate(|user| {
@@ -78,7 +78,7 @@ pub mod pallet {
         }
 
         #[pallet::weight(10000000)]
-        pub fn update_relayer(origin: OriginFor<T>, address: T::AccountId) -> DispatchResult {
+        pub fn update_relayer(origin: OriginFor<T>, address: <T as frame_system::Config>::AccountId) -> DispatchResult {
             ensure_signed(origin)?;
 
             Relayer::<T>::try_mutate_exists(|user_opt| {
@@ -112,10 +112,10 @@ pub mod pallet {
         }
 
         #[pallet::weight(10000000)]
-        pub fn mint_wrapper_token(origin: OriginFor<T>, address: T::AccountId, amount: T::Balance, bitcoin_address: Vec<u8>) -> DispatchResult {
-            let rel = ensure_signed(origin);
+        pub fn mint_wrapper_token(origin: OriginFor<T>, address: <T as frame_system::Config>::AccountId, amount: T::Balance, bitcoin_address: Vec<u8>) -> DispatchResult {
+            let rel = ensure_signed(origin.clone())?;
             let assetid: T::AssetId = T::WBtcAssetId::get();
-            <pallet_token::Pallet<T>>::mint(origin.clone(), assetid, address.clone(), amount)?;
+            <pallet_token::Pallet<T>>::mint(origin, assetid, address.clone(), amount)?;
             Self::deposit_event(Event::WBtcAdded {
                 relayer: rel,
                 user: address,
@@ -127,10 +127,10 @@ pub mod pallet {
         }
 
         #[pallet::weight(10000000)]
-        pub fn burn_wrapper_token(origin: OriginFor<T>, address: T::AccountId, amount: T::Balance, bitcoin_address: Vec<u8>) -> DispatchResult {
-            let rel = ensure_signed(origin);
+        pub fn burn_wrapper_token(origin: OriginFor<T>, address: <T as frame_system::Config>::AccountId, amount: T::Balance, bitcoin_address: Vec<u8>) -> DispatchResult {
+            let rel = ensure_signed(origin.clone())?;
             let assetid: T::AssetId = T::WBtcAssetId::get();
-            <pallet_token::Pallet<T>>::burn(origin.clone(), assetid, address.clone(), amount)?;
+            <pallet_token::Pallet<T>>::burn(origin, assetid, address.clone(), amount)?;
             Self::deposit_event(Event::WBtcDeleted {
                 relayer: rel,
                 user: address,
@@ -145,30 +145,30 @@ pub mod pallet {
     pub enum Event<T: Config> {
         /// A root operation was executed, show result
         NewRegistration {
-            address: T::AccountId,
+            address: <T as frame_system::Config>::AccountId,
             role: Vec<u8>,
         },
         /// A relayer is removed
         RelayersRemoved {
-            address: T::AccountId,
+            address: <T as frame_system::Config>::AccountId,
             role: Vec<u8>,
         },
         /// A relayer address is updated
         RelayerUpdated {
-            old_address: T::AccountId,
-            new_address: T::AccountId,
+            old_address: <T as frame_system::Config>::AccountId,
+            new_address: <T as frame_system::Config>::AccountId,
         },
         /// Relayer minted wrapped btc successfully
         WBtcAdded {
-            relayer: T::AccountId,
-            user: T::AccountId,
+            relayer: <T as frame_system::Config>::AccountId,
+            user: <T as frame_system::Config>::AccountId,
             amount: T::Balance,
             bitcoin_address: Vec<u8>,
         },
         /// Relayer burn wrapped btc successfully
         WBtcDeleted {
-            relayer: T::AccountId,
-            user: T::AccountId,
+            relayer: <T as frame_system::Config>::AccountId,
+            user: <T as frame_system::Config>::AccountId,
             amount: T::Balance,
             bitcoin_address: Vec<u8>,
         }

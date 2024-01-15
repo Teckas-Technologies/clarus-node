@@ -367,9 +367,9 @@ construct_runtime!(
         TechnicalCommittee: pallet_collective::<Instance1> = 20,
 
         // TokenWrapper: pallet_token = 51,
-        // TokenWrapper: pallet_token = 51,
-        // Relayer: clarus_relayer = 52, 
-        // Mandate: clarus_mandate = 53,
+        TokenWrapper: pallet_token = 51,
+        Relayer: clarus_relayer = 52, 
+        Mandate: clarus_mandate = 53,
         // Nfts: pallet_nfts = 119,
     }
 );
