@@ -45,6 +45,7 @@ use frame_support::{
         },
         ConstantMultiplier, IdentityFee, Weight,
     },
+    genesis_builder_helper::{build_config, create_default_config},
 };
 use frame_system::{
     limits::{BlockLength, BlockWeights},
@@ -344,7 +345,7 @@ construct_runtime!(
     {
         //Substrate dependencies
         System: frame_system = 1,
-        Balances: pallet_balances::{Pallet, Call, Storage, Event<T>} = 2,
+        Balances: pallet_balances = 2,
         Babe: pallet_babe = 3,
         Timestamp: pallet_timestamp = 4,
         // Authorship must be before session in order to note author in the correct session and era
@@ -363,7 +364,7 @@ construct_runtime!(
         Multisig: pallet_multisig = 16,
         Staking: pallet_staking::{Pallet, Storage, Config<T>, Event<T>} = 17,
         VoterList: pallet_bags_list::<Instance1>::{Pallet, Storage, Event<T>} = 18,
-        NominationPools: pallet_nomination_pools::{Pallet, Storage, Event<T>, FreezeReason} = 19,
+        NominationPools: pallet_nomination_pools = 19,
         TechnicalCommittee: pallet_collective::<Instance1> = 20,
 
         // TokenWrapper: pallet_token = 51,
@@ -741,6 +742,16 @@ impl_runtime_apis! {
             add_benchmarks!(params, batches);
 
             Ok(batches)
+        }
+    }
+
+    impl sp_genesis_builder::GenesisBuilder<Block> for Runtime {
+        fn create_default_config() -> Vec<u8> {
+            create_default_config::<RuntimeGenesisConfig>()
+        }
+
+        fn build_config(config: Vec<u8>) -> sp_genesis_builder::Result {
+            build_config::<RuntimeGenesisConfig>(config)
         }
     }
 }

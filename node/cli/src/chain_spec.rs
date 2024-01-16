@@ -417,14 +417,14 @@ pub fn testnet_genesis(
             "slashRewardFraction": Perbill::from_percent(10),
             "stakers": stakers.clone(),
         },
-        "elections": {
-            "members": endowed_accounts
-                .iter()
-                .take((num_endowed_accounts + 1) / 2)
-                .cloned()
-                .map(|member| (member, STASH))
-                .collect::<Vec<_>>(),
-        },
+        // "elections": {
+        //     "members": endowed_accounts
+        //         .iter()
+        //         .take((num_endowed_accounts + 1) / 2)
+        //         .cloned()
+        //         .map(|member| (member, STASH))
+        //         .collect::<Vec<_>>(),
+        // },
         "technicalCommittee": {
             "members": endowed_accounts
                 .iter()
@@ -436,11 +436,11 @@ pub fn testnet_genesis(
         "babe": {
             "epochConfig": Some(clarus_runtime::BABE_GENESIS_EPOCH_CONFIG),
         },
-        "society": { "pot": 0 },
-        "assets": {
-            // This asset is used by the NIS pallet as counterpart currency.
-            "assets": vec![(9, get_account_id_from_seed::<sr25519::Public>("Alice"), true, 1)],
-        },
+        // "society": { "pot": 0 },
+        // "assets": {
+        //     // This asset is used by the NIS pallet as counterpart currency.
+        //     "assets": vec![(9, get_account_id_from_seed::<sr25519::Public>("Alice"), true, 1)],
+        // },
         "nominationPools": {
             "minCreateBond": 10 * DOLLARS,
             "minJoinBond": 1 * DOLLARS,
@@ -464,9 +464,27 @@ pub fn development_config() -> ChainSpec {
         .with_id("dev")
         .with_chain_type(ChainType::Development)
         .with_genesis_config_patch(development_config_genesis_json())
-        .with_properties(get_chain_properties())
+        // .with_properties(get_chain_properties())
         .build()
 }
+
+// Development config (single validator Alice)
+// pub fn development_config() -> ChainSpec {
+// 	#[allow(deprecated)]
+// 	ChainSpec::from_genesis(
+// 		"Development",
+// 		"dev",
+// 		ChainType::Development,
+// 		development_config_genesis_json,
+// 		vec![],
+// 		None,
+// 		None,
+// 		None,
+// 		Some(get_chain_properties()),
+// 		Default::default(),
+// 		wasm_binary_unwrap(),
+// 	)
+// }
 
 fn local_testnet_genesis() -> serde_json::Value {
     testnet_genesis(
