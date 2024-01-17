@@ -19,7 +19,7 @@
 pub use pallet::*;
 
 use frame_support::{
-    dispatch::{DispatchResultWithPostInfo, GetDispatchInfo},
+    dispatch::{DispatchResultWithPostInfo},
     pallet_prelude::*,
     traits::{StorageVersion, UnfilteredDispatchable},
 };
@@ -112,9 +112,8 @@ pub mod pallet {
         }
 
         #[pallet::weight(10000000)]
-        pub fn mint_wrapper_token(origin: OriginFor<T>, address: <T as frame_system::Config>::AccountId, amount: T::Balance, bitcoin_address: Vec<u8>) -> DispatchResult {
+        pub fn mint_wrapper_token(origin: OriginFor<T>, assetid: T::AssetId, address: <T as frame_system::Config>::AccountId, amount: T::Balance, bitcoin_address: Vec<u8>) -> DispatchResult {
             let rel = ensure_signed(origin.clone())?;
-            let assetid: T::AssetId = T::WBtcAssetId::get();
             <pallet_token::Pallet<T>>::mint(origin, assetid, address.clone(), amount)?;
             Self::deposit_event(Event::WBtcAdded {
                 relayer: rel,
@@ -127,7 +126,7 @@ pub mod pallet {
         }
 
         #[pallet::weight(10000000)]
-        pub fn burn_wrapper_token(origin: OriginFor<T>, address: <T as frame_system::Config>::AccountId, amount: T::Balance, bitcoin_address: Vec<u8>) -> DispatchResult {
+        pub fn burn_wrapper_token(origin: OriginFor<T>, assetid: T::AssetId, address: <T as frame_system::Config>::AccountId, amount: T::Balance, bitcoin_address: Vec<u8>) -> DispatchResult {
             let rel = ensure_signed(origin.clone())?;
             let assetid: T::AssetId = T::WBtcAssetId::get();
             <pallet_token::Pallet<T>>::burn(origin, assetid, address.clone(), amount)?;

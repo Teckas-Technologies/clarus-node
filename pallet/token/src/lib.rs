@@ -44,6 +44,8 @@ impl<AssetId, AccountId> AssetsCallback<AssetId, AccountId> for () {}
 #[derive(codec::Encode, codec::Decode, Default, Clone, PartialEq, Eq, Debug, TypeInfo)]
 #[scale_info(skip_type_params(T))]
 pub struct AssetDetails<T: Config> {
+    /// Creator of the token
+    pub admin: T::AccountId,
     /// Can mint/burn tokens.
     pub issuer: T::AccountId,
     /// The total number token in circulation.
@@ -176,7 +178,7 @@ pub mod pallet {
         Created {
             asset_id: T::AssetId,
             creator: T::AccountId,
-            owner: T::AccountId,
+            issuer: T::AccountId,
         },
         // event for transfer of tokens
         // tokenid, from, to, value
@@ -276,15 +278,15 @@ pub mod pallet {
         pub fn create(
             origin: OriginFor<T>,
             id: T::AssetIdParameter,
-            admin: AccountIdLookupOf<T>,
+            issuer: AccountIdLookupOf<T>,
             min_balance: T::Balance,
             name: Vec<u8>,
             symbol: Vec<u8>,
         ) -> DispatchResult {
             let id: T::AssetId = id.into();
 
-            let owner = ensure_signed(origin)?; //T::CreateOrigin::ensure_origin(origin, &id)?;
-            let admin = T::Lookup::lookup(admin)?;
+            let admin = ensure_signed(origin)?; //T::CreateOrigin::ensure_origin(origin, &id)?;
+            let issuer = T::Lookup::lookup(issuer)?;
 
             ensure!(!Asset::<T>::contains_key(&id), Error::<T>::InUse);
             ensure!(!min_balance.is_zero(), Error::<T>::MinBalanceZero);
@@ -295,14 +297,15 @@ pub mod pallet {
             Asset::<T>::insert(
                 id.clone(),
                 AssetDetails {
+                    admin: admin.clone(),
+                    issuer: issuer.clone(),
                     name,
                     symbol,
-                    issuer: admin.clone(),
                     supply: Zero::zero(),
+                    accounts: 0,
                     // deposit,
                     // min_balance,
                     // is_sufficient: false,
-                    accounts: 0,
                 },
             );
             // ensure!(
@@ -311,8 +314,8 @@ pub mod pallet {
             // );
             Self::deposit_event(Event::Created {
                 asset_id: id,
-                creator: owner.clone(),
-                owner: admin,
+                creator: admin.clone(),
+                issuer
             });
 
             Ok(())
@@ -464,12 +467,11 @@ pub mod pallet {
             T::AssetId,
             (
                 T::AccountId,
+                T::AccountId,
                 T::Balance,
                 u32,
                 Vec<u8>,
                 Vec<u8>,
-                T::Balance,
-                u32,
             ),
         )>,
         pub balances: Vec<(T::AssetId, T::AccountId, T::Balance)>,
@@ -489,13 +491,14 @@ pub mod pallet {
     #[pallet::genesis_build]
     impl<T: Config> BuildGenesisConfig for GenesisConfig<T> {
         fn build(&self) {
-            for (asset_id, (issuer, supply, accounts, name, symbol, total_supply, decimals)) in
+            for (asset_id, (admin, issuer, supply, accounts, name, symbol)) in
                 self.asset.iter()
             {
                 let asset_details: AssetDetails<T> = AssetDetails {
+                    admin: admin.clone(),
+                    issuer: issuer.clone(),
                     name: name.to_vec(),
                     symbol: symbol.to_vec(),
-                    issuer: issuer.clone(),
                     supply: *supply,
                     accounts: *accounts,
                 };

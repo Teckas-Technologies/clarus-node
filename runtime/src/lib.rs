@@ -38,7 +38,7 @@ use frame_support::{
     dispatch::DispatchClass,
     pallet_prelude::Get,
     parameter_types,
-    traits::{ConstU16, ConstU32, Currency, Imbalance, KeyOwnerProofSystem, OnUnbalanced, AsEnsureOriginWithArg},
+    traits::{ConstU16, ConstU32, Currency, Imbalance, KeyOwnerProofSystem, OnUnbalanced},
     weights::{
         constants::{
             BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_REF_TIME_PER_SECOND,
@@ -155,7 +155,6 @@ pub fn native_version() -> NativeVersion {
 }
 
 type NegativeImbalance = <Balances as Currency<AccountId>>::NegativeImbalance;
-type PositiveImbalance = <Balances as Currency<AccountId>>::PositiveImbalance;
 
 /// We assume that ~10% of the block weight is consumed by `on_initialize` handlers.
 /// This is used to limit the maximal weight of a single extrinsic.

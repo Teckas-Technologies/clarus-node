@@ -132,12 +132,12 @@ impl<T: Config> Pallet<T> {
         id: T::AssetId,
         beneficiary: &T::AccountId,
         amount: T::Balance,
-        _maybe_check_issuer: Option<T::AccountId>,
+        maybe_check_issuer: Option<T::AccountId>,
     ) -> DispatchResult {
         Self::increase_balance(id, beneficiary, amount, |details| -> DispatchResult {
-            // if let Some(check_issuer) = maybe_check_issuer {
-            // 	ensure!(&check_issuer == &details.issuer, Error::<T>::NoPermission);
-            // }
+            if let Some(check_issuer) = maybe_check_issuer {
+            	ensure!(&check_issuer == &details.issuer, Error::<T>::NoPermission);
+            }
 
             details.supply = details
                 .supply
@@ -210,13 +210,13 @@ impl<T: Config> Pallet<T> {
         id: T::AssetId,
         target: &T::AccountId,
         amount: T::Balance,
-        _maybe_check_admin: Option<T::AccountId>,
+        maybe_check_admin: Option<T::AccountId>,
     ) -> Result<T::Balance, DispatchError> {
         let actual = Self::decrease_balance(id, target, amount, |actual, details| {
             // Check admin rights.
-            // if let Some(check_admin) = maybe_check_admin {
-            // 	ensure!(&check_admin == &details.issuer, Error::<T>::NoPermission);
-            // }
+            if let Some(check_admin) = maybe_check_admin {
+            	ensure!(&check_admin == &details.issuer, Error::<T>::NoPermission);
+            }
 
             details.supply = details
                 .supply
