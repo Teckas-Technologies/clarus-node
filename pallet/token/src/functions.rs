@@ -1,13 +1,10 @@
 //! Functions for the Assets pallet.
 
 use super::*;
-use frame_support::{
-    dispatch::{DispatchResult},
-    ensure,
-};
+use frame_support::{dispatch::DispatchResult, ensure};
 use sp_runtime::{
+    traits::{CheckedAdd, CheckedSub, Zero},
     DispatchError,
-    traits::{CheckedAdd, CheckedSub, Zero}
 };
 
 // implementation of mudule
@@ -70,11 +67,7 @@ impl<T: Config> Pallet<T> {
         Ok(())
     }
 
-    pub fn _transfer_all(
-        id: T::AssetId,
-        from: T::AccountId,
-        to: T::AccountId,
-    ) -> DispatchResult {
+    pub fn _transfer_all(id: T::AssetId, from: T::AccountId, to: T::AccountId) -> DispatchResult {
         if <BalanceOf<T>>::contains_key(id, &from) {
             Asset::<T>::try_mutate(id, |maybe_details| -> DispatchResult {
                 let details = maybe_details.as_mut().ok_or(Error::<T>::UnknownAsset)?;
@@ -136,7 +129,7 @@ impl<T: Config> Pallet<T> {
     ) -> DispatchResult {
         Self::increase_balance(id, beneficiary, amount, |details| -> DispatchResult {
             if let Some(check_issuer) = maybe_check_issuer {
-            	ensure!(&check_issuer == &details.issuer, Error::<T>::NoPermission);
+                ensure!(&check_issuer == &details.issuer, Error::<T>::NoPermission);
             }
 
             details.supply = details
@@ -187,10 +180,7 @@ impl<T: Config> Pallet<T> {
         Ok(())
     }
 
-    pub(super) fn new_account(
-        _who: &T::AccountId,
-        d: &mut AssetDetails<T>,
-    ) -> DispatchResult {
+    pub(super) fn new_account(_who: &T::AccountId, d: &mut AssetDetails<T>) -> DispatchResult {
         let accounts = d
             .accounts
             .checked_add(1)
@@ -215,7 +205,7 @@ impl<T: Config> Pallet<T> {
         let actual = Self::decrease_balance(id, target, amount, |actual, details| {
             // Check admin rights.
             if let Some(check_admin) = maybe_check_admin {
-            	ensure!(&check_admin == &details.issuer, Error::<T>::NoPermission);
+                ensure!(&check_admin == &details.issuer, Error::<T>::NoPermission);
             }
 
             details.supply = details

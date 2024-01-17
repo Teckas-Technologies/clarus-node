@@ -36,6 +36,7 @@ use frame_election_provider_support::{
 use frame_support::{
     construct_runtime,
     dispatch::DispatchClass,
+    genesis_builder_helper::{build_config, create_default_config},
     pallet_prelude::Get,
     parameter_types,
     traits::{ConstU16, ConstU32, Currency, Imbalance, KeyOwnerProofSystem, OnUnbalanced},
@@ -45,7 +46,6 @@ use frame_support::{
         },
         ConstantMultiplier, IdentityFee, Weight,
     },
-    genesis_builder_helper::{build_config, create_default_config},
 };
 use frame_system::{
     limits::{BlockLength, BlockWeights},
@@ -68,7 +68,7 @@ use sp_runtime::{
     create_runtime_str, generic, impl_opaque_keys,
     traits::{
         self, BlakeTwo256, Block as BlockT, Bounded, NumberFor, OpaqueKeys, SaturatedConversion,
-        StaticLookup, 
+        StaticLookup,
     },
     transaction_validity::{TransactionPriority, TransactionSource, TransactionValidity},
     ApplyExtrinsicResult, FixedPointNumber, Perbill, Percent, Perquintill,
@@ -368,7 +368,7 @@ construct_runtime!(
 
         // TokenWrapper: pallet_token = 51,
         TokenWrapper: pallet_token = 51,
-        Relayer: clarus_relayer = 52, 
+        Relayer: clarus_relayer = 52,
         Mandate: clarus_mandate = 53,
         // Nfts: pallet_nfts = 119,
     }

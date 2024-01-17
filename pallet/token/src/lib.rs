@@ -61,8 +61,8 @@ pub struct AssetDetails<T: Config> {
 #[frame_support::pallet]
 pub mod pallet {
     use super::*;
+    use frame_support::pallet_prelude::*;
     use frame_support::traits::EnsureOriginWithArg;
-    use frame_support::{pallet_prelude::*};
     use frame_system::pallet_prelude::*;
     use sp_runtime::traits::AtLeast32BitUnsigned;
     use sp_runtime::traits::StaticLookup;
@@ -77,7 +77,7 @@ pub mod pallet {
         type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
 
         // The overarching dispatch call type.
-		// type Call: From<Call<Self>>;
+        // type Call: From<Call<Self>>;
 
         /// The units in which we record balances.
         type Balance: Member
@@ -315,7 +315,7 @@ pub mod pallet {
             Self::deposit_event(Event::Created {
                 asset_id: id,
                 creator: admin.clone(),
-                issuer
+                issuer,
             });
 
             Ok(())
@@ -491,9 +491,7 @@ pub mod pallet {
     #[pallet::genesis_build]
     impl<T: Config> BuildGenesisConfig for GenesisConfig<T> {
         fn build(&self) {
-            for (asset_id, (admin, issuer, supply, accounts, name, symbol)) in
-                self.asset.iter()
-            {
+            for (asset_id, (admin, issuer, supply, accounts, name, symbol)) in self.asset.iter() {
                 let asset_details: AssetDetails<T> = AssetDetails {
                     admin: admin.clone(),
                     issuer: issuer.clone(),
