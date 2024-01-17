@@ -72,9 +72,9 @@ parameter_types! {
     pub const SignedMaxSubmissions: u32 = 0;
 
     // signed config
-    pub const SignedRewardBase: Balance = 1 * DOLLARS;
-    pub const SignedFixedDeposit: Balance = 1 * DOLLARS;
-    pub const SignedDepositByte: Balance = 1 * CENTS;
+    pub const SignedRewardBase: Balance = DOLLARS;
+    pub const SignedFixedDeposit: Balance = DOLLARS;
+    pub const SignedDepositByte: Balance = CENTS;
     pub const SignedDepositIncreaseFactor: Percent = Percent::from_percent(10);
 
     pub BetterUnsignedThreshold: Perbill = Perbill::from_rational(1u32, 10_000);
@@ -128,7 +128,7 @@ parameter_types! {
 }
 
 parameter_types! {
-    pub StatementCost: Balance = 1 * DOLLARS;
+    pub StatementCost: Balance = DOLLARS;
     pub StatementByteCost: Balance = 100 * MILLICENTS;
     pub const MinAllowedStatements: u32 = 4;
     pub const MaxAllowedStatements: u32 = 10;

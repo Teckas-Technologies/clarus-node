@@ -285,17 +285,17 @@ pub mod pallet {
         ) -> DispatchResult {
             let id: T::AssetId = id.into();
 
-            let admin = ensure_signed(origin)?; //T::CreateOrigin::ensure_origin(origin, &id)?;
+            let admin = ensure_signed(origin)?; //T::CreateOrigin::ensure_origin(origin, &id)?; //done by TC
             let issuer = T::Lookup::lookup(issuer)?;
 
-            ensure!(!Asset::<T>::contains_key(&id), Error::<T>::InUse);
+            ensure!(!Asset::<T>::contains_key(id), Error::<T>::InUse);
             ensure!(!min_balance.is_zero(), Error::<T>::MinBalanceZero);
 
             //let deposit = T::AssetDeposit::get();
             //T::Currency::reserve(&owner, deposit)?;
 
             Asset::<T>::insert(
-                id.clone(),
+                id,
                 AssetDetails {
                     admin: admin.clone(),
                     issuer: issuer.clone(),

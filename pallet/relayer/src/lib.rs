@@ -67,7 +67,7 @@ pub mod pallet {
             origin: OriginFor<T>,
             address: <T as frame_system::Config>::AccountId,
         ) -> DispatchResult {
-            ensure_signed(origin)?;
+            ensure_signed(origin)?; //TC
 
             Relayer::<T>::mutate(|user| {
                 *user = Some(address.clone());
@@ -86,7 +86,7 @@ pub mod pallet {
             origin: OriginFor<T>,
             address: <T as frame_system::Config>::AccountId,
         ) -> DispatchResult {
-            ensure_signed(origin)?;
+            ensure_signed(origin)?; //TC
 
             Relayer::<T>::try_mutate_exists(|user_opt| {
                 if let Some(user) = user_opt {
@@ -103,7 +103,7 @@ pub mod pallet {
 
         #[pallet::weight(10000000)]
         pub fn remove_relayer(origin: OriginFor<T>) -> DispatchResult {
-            ensure_signed(origin)?;
+            ensure_signed(origin)?; //TC
 
             Relayer::<T>::try_mutate_exists(|user_opt| {
                 if let Some(user) = user_opt {
@@ -126,6 +126,7 @@ pub mod pallet {
             bitcoin_address: Vec<u8>,
         ) -> DispatchResult {
             let rel = ensure_signed(origin.clone())?;
+            //Store btc add StroageMap , persistent
             <pallet_token::Pallet<T>>::mint(origin, assetid, address.clone(), amount)?;
             Self::deposit_event(Event::WBtcAdded {
                 relayer: rel,
