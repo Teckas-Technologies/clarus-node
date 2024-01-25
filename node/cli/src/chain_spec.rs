@@ -224,7 +224,7 @@ pub fn clarus_chain_config() -> ChainSpec {
         .with_chain_type(ChainType::Live)
         .with_genesis_config_patch(clarus_testnet_config_genesis())
         .with_telemetry_endpoints(
-            TelemetryEndpoints::new(vec![(clarus_TELEMETRY_URL.to_string(), 0)])
+            TelemetryEndpoints::new(vec![(CLARUS_TELEMETRY_URL.to_string(), 0)])
                 .expect("clarus telemetry url is valid; qed"),
         )
         .with_boot_nodes(boot_nodes)
@@ -236,7 +236,7 @@ pub fn clarus_chain_config() -> ChainSpec {
 fn get_chain_properties() -> serde_json::map::Map<String, serde_json::Value> {
     let mut properties = serde_json::map::Map::new();
     properties.insert("tokenDecimals".into(), serde_json::json!(6));
-    properties.insert("tokenSymbol".into(), serde_json::json!("MOID"));
+    properties.insert("tokenSymbol".into(), serde_json::json!("MYID"));
     properties
 }
 
