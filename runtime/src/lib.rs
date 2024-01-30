@@ -172,12 +172,17 @@ const_assert!(NORMAL_DISPATCH_RATIO.deconstruct() >= AVERAGE_ON_INITIALIZE_RATIO
 
 pub struct BaseFilter;
 impl frame_support::traits::Contains<RuntimeCall> for BaseFilter {
-    fn contains(c: &RuntimeCall) -> bool {
-        !matches!(
-            c,
-            // Disable permissionless token transfer/issue.
-            RuntimeCall::Balances(..)
-        )
+    fn contains(call: &RuntimeCall) -> bool {
+        match call {
+			//RuntimeCall::System(_) | RuntimeCall::SafeMode(_) | RuntimeCall::TxPause(_) => true,
+			_ => false,
+		}
+        // !matches!(
+        //     c,
+        //     // Disable permissionless token transfer/issue.
+        //     // RuntimeCall::Balances(..)
+        //     None
+        // )
     }
 }
 
